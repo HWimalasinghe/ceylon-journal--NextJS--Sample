@@ -1,0 +1,5 @@
+# Optional Sanity integration
+
+The project runs entirely from `src/lib/data.ts` without credentials. `src/lib/content.ts` switches to published Sanity documents when `SANITY_PROJECT_ID` is configured. Create a Sanity Studio separately and import the provided `schemaTypes.mjs` definitions into its configuration. Each document uses `slug` of type slug; `imageUrl` can be a local path or an HTTPS URL, or use an `image` asset. Deploy your Studio and seed documents from sample data. Restart or rebuild Next.js after editing published data in this demo.
+
+Types: journey (title, slug, category, days, price, description, image, destinations array of slug strings, highlights array of strings, itinerary array of {day,title,description}); destination (name, slug, region, description, image, x/y numbers, highlights, season); experience/stay/article (title, slug, category, description, image, body array of strings). Keep the public content dataset free of personal data. The Sanity Studio itself is not bundled. Do not place personal inquiries in the CMS.

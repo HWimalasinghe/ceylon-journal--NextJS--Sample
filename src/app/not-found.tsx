@@ -1,0 +1,1 @@
+import {PageHero,ButtonLink} from '@/components/ui';export default function NotFound(){return <><PageHero eyebrow="404 · LOST IN CEYLON" title="A little off the beaten path." description="This page could not be found."/><div className="wrap section"><ButtonLink href="/">Return home</ButtonLink></div></>}
