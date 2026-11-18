@@ -1,5 +1,192 @@
-import {notFound} from 'next/navigation';import type {Metadata} from 'next';import {getExperiences,getStays,getArticles} from '@/lib/content';import {PageHero,StoryCard,CTA,Photo,SectionTitle,ButtonLink} from '@/components/ui';import {Accordion} from '@/components/interactive';import {faqs} from '@/lib/data';
-const collections={experiences:{title:'Moments beyond the ordinary.',eyebrow:'AUTHENTIC ENCOUNTERS',description:'Discover the extraordinary moments that make a journey unforgettable.',image:'/images/wildlife.webp',get:getExperiences},stays:{title:'Stay somewhere special.',eyebrow:'A PLACE TO BELONG',description:'A thoughtful collection of distinctive accommodation styles.',image:'/images/tea.webp',get:getStays},journal:{title:'Stories for the curious.',eyebrow:'THE CEYLON JOURNAL',description:'Inspiration, local stories and practical ideas for your next journey.',image:'/images/hero.webp',get:getArticles}};
-const pages={about:{title:'A more personal way to wander.',eyebrow:'OUR PHILOSOPHY',description:'A concept for thoughtful, privately guided travel through Sri Lanka.',image:'/images/tea.webp',body:[['Rooted in the island','We believe that meaningful travel begins with curiosity, respect and the knowledge of local people. Ceylon Journal is a demonstration brand for a luxury Sri Lankan travel concierge.'],['Designed around you','Our vision is to create unhurried private journeys with carefully selected accommodation, local encounters and flexible itineraries.'],['Travel with care','Responsible wildlife viewing, respect for local cultures and transparent arrangements are at the heart of our proposed service.']]},contact:{title:'Let’s begin a conversation.',eyebrow:'PERSONAL TRAVEL CONCIERGE',description:'Tell us what inspires you. Start planning your extraordinary journey.',image:'/images/coast.webp',body:[['Contact a travel specialist','Use our trip planner to submit a demonstration inquiry. This is a sample website; no telephone number, business address or live email service has been configured.']]},'travel-guide':{title:'Prepare for the extraordinary.',eyebrow:'TRAVEL INFORMATION',description:'A thoughtful starting point for planning your Sri Lankan journey.',image:'/images/hero.webp',body:[['When to visit','The island has different regional weather patterns. Your itinerary should match your travel dates and preferred experiences. Check current local conditions before travel.'],['Getting around','Plan realistic driving times between destinations. Private transportation can offer flexibility and comfort.'],['Before you go','Confirm current visa and entry requirements via official government sources, consider travel insurance and discuss any accessibility requirements.']]},faq:{title:'Your questions, answered.',eyebrow:'GOOD TO KNOW',description:'Helpful answers about our proposed private travel experience.',image:'/images/tea.webp',body:[]},privacy:{title:'Privacy notice.',eyebrow:'DEMONSTRATION POLICY',description:'How this sample application handles submitted information.',body:[['Demo data','The sample form stores submitted information in a local file, or an explicitly configured Supabase database. No live booking or email is sent. Use fictional details when testing.'],['Your information','Do not enter sensitive information, passport numbers or payment details. Before launch, the business must replace this demonstration notice with its own approved privacy policy and retention procedures.']]},terms:{title:'Terms of use.',eyebrow:'DEMONSTRATION TERMS',description:'This application is a demonstration, not a confirmed travel service.',body:[['Sample itineraries','All itineraries, prices, services and imagery are illustrative. They do not constitute a booking, offer or guarantee of availability.'],['Production website','Actual commercial terms, cancellation policies, licensed imagery and business details must be reviewed and confirmed before launch.']]}};
-type Props={params:Promise<{section:string}>};export function generateStaticParams(){return [...Object.keys(collections),...Object.keys(pages)].map(section=>({section}));}export async function generateMetadata({params}:Props):Promise<Metadata>{const {section}=await params;const c=collections[section as keyof typeof collections]||pages[section as keyof typeof pages];return c?{title:c.title,description:c.description}:{};}
-export default async function Page({params}:Props){const {section}=await params;const c=collections[section as keyof typeof collections];if(c){const list=await c.get();return <><PageHero {...c}/><section className="section"><div className="wrap grid-3">{list.map(s=><StoryCard key={s.slug} story={s} base={section}/>)}</div></section><CTA/></>}const p=pages[section as keyof typeof pages];if(!p)notFound();return <><PageHero {...p}/><section className="section"><div className="wrap reading">{section==='faq'?<Accordion items={faqs.map(([title,body])=>({title,body}))}/>:p.body.map(([title,body])=><div className="reading-block" key={title}><h2>{title}</h2><p>{body}</p></div>)}{section==='contact'&&<ButtonLink href="/plan-your-journey">Open trip planner</ButtonLink>}</div></section>{!['privacy','terms'].includes(section)&&<CTA/>}</>}
+import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { getExperiences, getStays, getArticles } from "@/lib/content";
+import {
+  PageHero,
+  StoryCard,
+  CTA,
+  Photo,
+  SectionTitle,
+  ButtonLink,
+} from "@/components/ui";
+import { Accordion } from "@/components/interactive";
+import { faqs } from "@/lib/data";
+const collections = {
+  experiences: {
+    title: "Moments beyond the ordinary.",
+    eyebrow: "AUTHENTIC ENCOUNTERS",
+    description:
+      "Discover the extraordinary moments that make a journey unforgettable.",
+    image: "/images/wildlife.webp",
+    get: getExperiences,
+  },
+  stays: {
+    title: "Stay somewhere special.",
+    eyebrow: "A PLACE TO BELONG",
+    description: "A thoughtful collection of distinctive accommodation styles.",
+    image: "/images/tea.webp",
+    get: getStays,
+  },
+  journal: {
+    title: "Stories for the curious.",
+    eyebrow: "THE CEYLON JOURNAL",
+    description:
+      "Inspiration, local stories and practical ideas for your next journey.",
+    image: "/images/hero.webp",
+    get: getArticles,
+  },
+};
+const pages = {
+  about: {
+    title: "A more personal way to wander.",
+    eyebrow: "OUR PHILOSOPHY",
+    description:
+      "A concept for thoughtful, privately guided travel through Sri Lanka.",
+    image: "/images/tea.webp",
+    body: [
+      [
+        "Rooted in the island",
+        "We believe that meaningful travel begins with curiosity, respect and the knowledge of local people. Ceylon Journal is a demonstration brand for a luxury Sri Lankan travel concierge.",
+      ],
+      [
+        "Designed around you",
+        "Our vision is to create unhurried private journeys with carefully selected accommodation, local encounters and flexible itineraries.",
+      ],
+      [
+        "Travel with care",
+        "Responsible wildlife viewing, respect for local cultures and transparent arrangements are at the heart of our proposed service.",
+      ],
+    ],
+  },
+  contact: {
+    title: "Let’s begin a conversation.",
+    eyebrow: "PERSONAL TRAVEL CONCIERGE",
+    description:
+      "Tell us what inspires you. Start planning your extraordinary journey.",
+    image: "/images/coast.webp",
+    body: [
+      [
+        "Contact a travel specialist",
+        "Use our trip planner to submit a demonstration inquiry. This is a sample website; no telephone number, business address or live email service has been configured.",
+      ],
+    ],
+  },
+  "travel-guide": {
+    title: "Prepare for the extraordinary.",
+    eyebrow: "TRAVEL INFORMATION",
+    description:
+      "A thoughtful starting point for planning your Sri Lankan journey.",
+    image: "/images/hero.webp",
+    body: [
+      [
+        "When to visit",
+        "The island has different regional weather patterns. Your itinerary should match your travel dates and preferred experiences. Check current local conditions before travel.",
+      ],
+      [
+        "Getting around",
+        "Plan realistic driving times between destinations. Private transportation can offer flexibility and comfort.",
+      ],
+      [
+        "Before you go",
+        "Confirm current visa and entry requirements via official government sources, consider travel insurance and discuss any accessibility requirements.",
+      ],
+    ],
+  },
+  faq: {
+    title: "Your questions, answered.",
+    eyebrow: "GOOD TO KNOW",
+    description:
+      "Helpful answers about our proposed private travel experience.",
+    image: "/images/tea.webp",
+    body: [],
+  },
+  privacy: {
+    title: "Privacy notice.",
+    eyebrow: "DEMONSTRATION POLICY",
+    description: "How this sample application handles submitted information.",
+    body: [
+      [
+        "Demo data",
+        "The sample form stores submitted information in a local file, or an explicitly configured Supabase database. No live booking or email is sent. Use fictional details when testing.",
+      ],
+      [
+        "Your information",
+        "Do not enter sensitive information, passport numbers or payment details. Before launch, the business must replace this demonstration notice with its own approved privacy policy and retention procedures.",
+      ],
+    ],
+  },
+  terms: {
+    title: "Terms of use.",
+    eyebrow: "DEMONSTRATION TERMS",
+    description:
+      "This application is a demonstration, not a confirmed travel service.",
+    body: [
+      [
+        "Sample itineraries",
+        "All itineraries, prices, services and imagery are illustrative. They do not constitute a booking, offer or guarantee of availability.",
+      ],
+      [
+        "Production website",
+        "Actual commercial terms, cancellation policies, licensed imagery and business details must be reviewed and confirmed before launch.",
+      ],
+    ],
+  },
+};
+type Props = { params: Promise<{ section: string }> };
+export function generateStaticParams() {
+  return [...Object.keys(collections), ...Object.keys(pages)].map(
+    (section) => ({ section }),
+  );
+}
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { section } = await params;
+  const c =
+    collections[section as keyof typeof collections] ||
+    pages[section as keyof typeof pages];
+  return c ? { title: c.title, description: c.description } : {};
+}
+export default async function Page({ params }: Props) {
+  const { section } = await params;
+  const c = collections[section as keyof typeof collections];
+  if (c) {
+    const list = await c.get();
+    return (
+      <>
+        <PageHero {...c} />
+        <section className="section">
+          <div className="wrap grid-3">
+            {list.map((s) => (
+              <StoryCard key={s.slug} story={s} base={section} />
+            ))}
+          </div>
+        </section>
+        <CTA />
+      </>
+    );
+  }
+  const p = pages[section as keyof typeof pages];
+  if (!p) notFound();
+  return (
+    <>
+      <PageHero {...p} />
+      <section className="section">
+        <div className="wrap reading">
+          {section === "faq" ? (
+            <Accordion items={faqs.map(([title, body]) => ({ title, body }))} />
+          ) : (
+            p.body.map(([title, body]) => (
+              <div className="reading-block" key={title}>
+                <h2>{title}</h2>
+                <p>{body}</p>
+              </div>
+            ))
+          )}
+          {section === "contact" && (
+            <ButtonLink href="/plan-your-journey">Open trip planner</ButtonLink>
+          )}
+        </div>
+      </section>
+      {!["privacy", "terms"].includes(section) && <CTA />}
+    </>
+  );
+}
