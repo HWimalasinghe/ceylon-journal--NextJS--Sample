@@ -1,1 +1,31 @@
-import type {MetadataRoute} from 'next';import {getJourneys,getDestinations,getExperiences,getStays,getArticles} from '@/lib/content';export default async function sitemap():Promise<MetadataRoute.Sitemap>{const base=(process.env.NEXT_PUBLIC_SITE_URL||'http://localhost:3000').replace(/\/$/,'');const groups=await Promise.all([getJourneys(),getDestinations(),getExperiences(),getStays(),getArticles()]);const names=['journeys','destinations','experiences','stays','journal'];return ['',...names.map(s=>`/${s}`),'/about','/contact','/plan-your-journey','/travel-guide','/faq',...groups.flatMap((g,i)=>g.map(x=>`/${names[i]}/${x.slug}`))].map(p=>({url:base+p}));}
+import type { MetadataRoute } from "next";
+import {
+  getJourneys,
+  getDestinations,
+  getExperiences,
+  getStays,
+  getArticles,
+} from "@/lib/content";
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const base = (
+    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+  ).replace(/\/$/, "");
+  const groups = await Promise.all([
+    getJourneys(),
+    getDestinations(),
+    getExperiences(),
+    getStays(),
+    getArticles(),
+  ]);
+  const names = ["journeys", "destinations", "experiences", "stays", "journal"];
+  return [
+    "",
+    ...names.map((s) => `/${s}`),
+    "/about",
+    "/contact",
+    "/plan-your-journey",
+    "/travel-guide",
+    "/faq",
+    ...groups.flatMap((g, i) => g.map((x) => `/${names[i]}/${x.slug}`)),
+  ].map((p) => ({ url: base + p }));
+}
