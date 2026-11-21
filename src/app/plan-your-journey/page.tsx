@@ -1,2 +1,45 @@
-import type {Metadata} from 'next';import {getJourneys} from '@/lib/content';import {PageHero,Photo} from '@/components/ui';import {TripPlanner} from '@/components/trip-planner';
-export const metadata:Metadata={title:'Design Your Journey'};export default async function Page({searchParams}:{searchParams:Promise<{journey?:string}>}){const {journey}=await searchParams;const j=(await getJourneys()).find(j=>j.slug===journey);return <><PageHero eyebrow="BESPOKE BY DESIGN" title="A journey as unique as you." description="Share a few details and take the first step towards your personal Sri Lankan escape."/><section className="section planner-section"><div className="wrap planner-grid"><TripPlanner journey={j?.slug} journeyTitle={j?.title}/><aside className="planner-aside"><Photo src="/images/coast.webp" alt="Illustrative Sri Lankan coast" className="planner-photo"/><h3>Made for your moments.</h3><p>Every itinerary begins with a conversation. In the demo, your preferences are stored securely in the local development environment or your configured database.</p><ul><li>Private, personalized journeys</li><li>No payment required</li><li>Flexible travel preferences</li></ul></aside></div></section></>}
+import type { Metadata } from "next";
+import { getJourneys } from "@/lib/content";
+import { PageHero, Photo } from "@/components/ui";
+import { TripPlanner } from "@/components/trip-planner";
+export const metadata: Metadata = { title: "Design Your Journey" };
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ journey?: string }>;
+}) {
+  const { journey } = await searchParams;
+  const j = (await getJourneys()).find((j) => j.slug === journey);
+  return (
+    <>
+      <PageHero
+        eyebrow="BESPOKE BY DESIGN"
+        title="A journey as unique as you."
+        description="Share a few details and take the first step towards your personal Sri Lankan escape."
+      />
+      <section className="section planner-section">
+        <div className="wrap planner-grid">
+          <TripPlanner journey={j?.slug} journeyTitle={j?.title} />
+          <aside className="planner-aside">
+            <Photo
+              src="/images/coast.webp"
+              alt="Illustrative Sri Lankan coast"
+              className="planner-photo"
+            />
+            <h3>Made for your moments.</h3>
+            <p>
+              Every itinerary begins with a conversation. In the demo, your
+              preferences are stored securely in the local development
+              environment or your configured database.
+            </p>
+            <ul>
+              <li>Private, personalized journeys</li>
+              <li>No payment required</li>
+              <li>Flexible travel preferences</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+    </>
+  );
+}
