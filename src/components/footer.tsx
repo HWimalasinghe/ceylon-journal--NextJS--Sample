@@ -1,3 +1,55 @@
-import Link from 'next/link';
-import {Brand} from './ui';
-export function Footer(){return <footer className="footer"><div className="wrap footer-grid"><div><Brand/><p>Private journeys. Authentic encounters.<br/>A more thoughtful way to discover Sri Lanka.</p><span className="demo-tag">DEMONSTRATION WEBSITE</span></div><div><h4>Explore</h4>{[['Journeys','journeys'],['Destinations','destinations'],['Experiences','experiences'],['Luxury stays','stays']].map(([a,b])=><Link key={b} href={`/${b}`}>{a}</Link>)}</div><div><h4>Discover</h4>{[['Our story','about'],['Travel journal','journal'],['Travel guide','travel-guide'],['FAQ','faq']].map(([a,b])=><Link key={b} href={`/${b}`}>{a}</Link>)}</div><div><h4>Get in touch</h4><Link href="/contact">Contact a specialist</Link><Link href="/plan-your-journey">Plan your journey</Link><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link></div></div><div className="wrap footer-bottom"><span>© {new Date().getFullYear()} Ceylon Journal. Concept site.</span><span>Crafted for the curious traveller · Sri Lanka</span></div></footer>}
+import Link from "next/link";
+import { Brand } from "./ui";
+export function Footer() {
+  return (
+    <footer className="footer">
+      <div className="wrap footer-grid">
+        <div>
+          <Brand />
+          <p>
+            Private journeys. Authentic encounters.
+            <br />A more thoughtful way to discover Sri Lanka.
+          </p>
+          <span className="demo-tag">DEMONSTRATION WEBSITE</span>
+        </div>
+        <div>
+          <h4>Explore</h4>
+          {[
+            ["Journeys", "journeys"],
+            ["Destinations", "destinations"],
+            ["Experiences", "experiences"],
+            ["Luxury stays", "stays"],
+          ].map(([a, b]) => (
+            <Link key={b} href={`/${b}`}>
+              {a}
+            </Link>
+          ))}
+        </div>
+        <div>
+          <h4>Discover</h4>
+          {[
+            ["Our story", "about"],
+            ["Travel journal", "journal"],
+            ["Travel guide", "travel-guide"],
+            ["FAQ", "faq"],
+          ].map(([a, b]) => (
+            <Link key={b} href={`/${b}`}>
+              {a}
+            </Link>
+          ))}
+        </div>
+        <div>
+          <h4>Get in touch</h4>
+          <Link href="/contact">Contact a specialist</Link>
+          <Link href="/plan-your-journey">Plan your journey</Link>
+          <Link href="/privacy">Privacy</Link>
+          <Link href="/terms">Terms</Link>
+        </div>
+      </div>
+      <div className="wrap footer-bottom">
+        <span>© {new Date().getFullYear()} Ceylon Journal. Concept site.</span>
+        <span>Crafted for the curious traveller · Sri Lanka</span>
+      </div>
+    </footer>
+  );
+}
